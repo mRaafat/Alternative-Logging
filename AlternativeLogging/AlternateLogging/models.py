@@ -1,23 +1,31 @@
 from django.db.models import *
-
+ 
 # Create your models here.
-class User(Model):
-	email = CharField(max_length=100,primary_key=True)
-	password = CharField(max_length=50)
-	def categories(self):
-		categoryPasswords = {}
-
-
-	def __unicode__(self):
-		return self.email
-
-	
+ 
+class User(Model): 
+    email = CharField(max_length=128,primary_key=True)
+    password = CharField(max_length=64)
+ 
+    def categories(self):
+        return [cat for cat in [Category.objects.get(id=cid) for cid in self.password.split()]]
+    
+    def __unicode__(self):
+        return self.email
+ 
+ 
 class Category(Model):
-	name = CharField(max_length = 40)
-	user = ForeignKey('User')
-
-	def allPath(self):
-		picsURLs = {} #This dictionary will contain a key, representing number of pic and its URL
-
-	def __unicode__(self):
-		return self.name
+    name = CharField(max_length = 64)
+ 
+    def __unicode__(self):
+        return self.name
+        
+    def get_pictures(self):
+        return [pic for pic in Picture.objects.filter(category=self)]
+        
+ 
+class Picture(Model):
+    category = ForeignKey('Category')
+    url = CharField(max_length = 265)
+    
+    def __unicode__(self):
+        return self.url
