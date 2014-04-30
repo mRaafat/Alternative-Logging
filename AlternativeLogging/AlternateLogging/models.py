@@ -1,4 +1,5 @@
 from django.db.models import *
+from django.forms import ModelForm, PasswordInput
 
 # Create your models here.
 class User(Model):
@@ -10,6 +11,13 @@ class User(Model):
 
 	def __unicode__(self):
 		return self.email
+
+class UserForm(ModelForm):
+	class Meta:
+		model = User
+		widgets = {
+			'password' : PasswordInput(),
+		}
 
 	
 class Category(Model):
