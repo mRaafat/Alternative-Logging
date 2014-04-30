@@ -1,5 +1,4 @@
 from django.db.models import *
-<<<<<<< HEAD
 from django.forms import ModelForm, PasswordInput
 
 # Create your models here.
